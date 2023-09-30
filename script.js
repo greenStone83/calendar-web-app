@@ -2,12 +2,47 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 
-function getDate() {
-  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  return `${days[getDay()]}, ${months[getMonth()]} ${getDate()}`;
+function addTimeBlocks() {
+  const date = new Date();
+  let currentHour = date.getHours();
+  let dayHalf = "AM";
+  let timeClass = "";
+  let standardTime = "";
+  for (let hour = 9; hour < 18; hour++) {
+    console.log(hour);
+    standardTime = hour;
+    if (hour === 12) {
+      dayHalf = "PM";
+    } else if (hour > 12) {
+      standardTime = hour - 12;
+    }
+    if (currentHour > hour) {
+      timeClass = "past";
+    } else if (currentHour === hour) {
+      timeClass = "present";
+    } else {
+      timeClass = "future";
+    }
+    const newTimeBlockHTML = `
+      <div id="hour-${standardTime}" class="row time-block ${timeClass}">
+        <div class="col-2 col-md-1 hour text-center py-3">${standardTime + dayHalf}</div>
+        <textarea class="col-8 col-md-10 description" rows="3"> </textarea>
+        <button class="btn saveBtn col-2 col-md-1" aria-label="save">
+          <i class="fas fa-save" aria-hidden="true"></i>
+        </button>
+      </div>
+    `;
+    $('#time-block-div').append(newTimeBlockHTML);
+  }
 }
 
+function getDate() {
+  const date = new Date();
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  //for example, returns "Sunday, August 3"
+  return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}`;
+}
 
 $(function () {
     // TODO: Add a listener for click events on the save button. This code should
@@ -28,6 +63,8 @@ $(function () {
     // attribute of each time-block be used to do this?
     //
     // TODO: Add code to display the current date in the header of the page.
+
+    addTimeBlocks();
 
   });
   
