@@ -8,14 +8,20 @@ function addTimeBlocks() {
   let dayHalf = "AM";
   let timeClass = "";
   let standardTime = "";
+
+  //loop through each hour
   for (let hour = 9; hour < 18; hour++) {
-    console.log(hour);
     standardTime = hour;
+
+    //if 12 or later, make it PM
     if (hour === 12) {
       dayHalf = "PM";
     } else if (hour > 12) {
+      //convert military time to standard time
       standardTime = hour - 12;
     }
+
+    //find if the block is in the past, present, or future
     if (currentHour > hour) {
       timeClass = "past";
     } else if (currentHour === hour) {
@@ -23,6 +29,8 @@ function addTimeBlocks() {
     } else {
       timeClass = "future";
     }
+
+    //add the time block in the code
     const newTimeBlockHTML = `
       <div id="hour-${standardTime}" class="row time-block ${timeClass}">
         <div class="col-2 col-md-1 hour text-center py-3">${standardTime + dayHalf}</div>
