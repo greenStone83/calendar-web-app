@@ -1,8 +1,5 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-
 function getStandardTime(hour) {
+  //converts military time to standard time
   if (hour > 12) {
     return hour - 12;
   } else {
@@ -57,28 +54,29 @@ function addTimeBlocks() {
 }
 
 function loadText() {
+  //loads saved text
   for (let hour = 9; hour < 18; hour++) {
     let standardHour = `hour-${getStandardTime(hour)}`;
     let savedText = localStorage.getItem(standardHour);
-    console.log(savedText);
     if (savedText !== null) {
-      $(`#${standardHour}`).parent().find('textarea').val(savedText);
+      $(`#${standardHour}`).find('textarea').val(savedText);
     }
   }
 }
 
 function saveText() {
+  //saves text
   for (let hour = 9; hour < 18; hour++) {
     let standardHour = `hour-${getStandardTime(hour)}`;
     $(`#${standardHour}`).on('click', 'button', function() {
       let textToSave = $(this).parent().find('textarea').val();
-      console.log(textToSave);
       localStorage.setItem(standardHour, textToSave);
     });
   }
 }
 
 $(function () {
+  //runs when DOM is loaded
   getDate();
   addTimeBlocks();
   loadText();
